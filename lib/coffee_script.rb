@@ -1,52 +1,67 @@
 require 'execjs'
-require 'coffee_script/source'
 
 module CoffeeScript
   Error            = ExecJS::Error
   EngineError      = ExecJS::RuntimeError
   CompilationError = ExecJS::ProgramError
 
-  module Source
-    def self.path
-      @path ||= ENV['COFFEESCRIPT_SOURCE_PATH'] || bundled_path
+  module MultiSource
+
+    def default_version
+      ENV['COFFEESCRIPT_DEFAULT_VERSION'] || '1.4.0'
     end
 
-    def self.path=(path)
-      @contents = @version = @bare_option = @context = nil
-      @path = path
+    def self.path_for(version)
+      @path ||= {}
+      @path[version] ||= File.join sources_directory, "coffee-script-#{version}.js"
     end
 
-    def self.contents
-      @contents ||= File.read(path)
+    def self.contents_for(version)
+      @contents ||= {}
+      @contents[version] ||= File.read(path_for(version))
     end
 
-    def self.version
-      @version ||= contents[/CoffeeScript Compiler v([\d.]+)/, 1]
+    def self.bare_option(version)
+      @base_option ||= {}
+      @bare_option[version] ||= contents_for(version).match(/noWrap/) ? 'noWrap' : 'bare'
     end
 
-    def self.bare_option
-      @bare_option ||= contents.match(/noWrap/) ? 'noWrap' : 'bare'
+    def self.context_for(version)
+      @context ||= {}
+      @context[version] ||= ExecJS.compile(contents_for(version))
     end
 
-    def self.context
-      @context ||= ExecJS.compile(contents)
+    def self.sources_directory
+      File.expand_path("../../vendor", __FILE__)
     end
+
   end
 
   class << self
-    def engine
+
+    def default_version
+      version = ENV['COFFEESCRIPT_DEFAULT_VERSION'] || '1.4.0'
+
+      unless all_available_versions.include? version
+        raise "default CoffeeScript version isn't availale"
+      end
+
+      version
     end
 
-    def engine=(engine)
-    end
+    # Look for coffee-script-*.js in the vendor/js folder
+    def all_available_versions
+      jade_paths = Dir.glob File.join MultiSource.sources_directory, "coffee-script*"
 
-    def version
-      Source.version
+      jade_paths.map do |path|
+        filename = File.basename path
+        filename.sub(/^coffee-script-?/, '').sub(/\.js$/, '')
+      end.compact
     end
 
     # Compile a script (String or IO) to JavaScript.
-    def compile(script, options = {})
-      script = script.read if script.respond_to?(:read)
+    def compile_with_version(version, script, options = {})
+      script  = script.read if script.respond_to?(:read)
 
       if options.key?(:bare)
       elsif options.key?(:no_wrap)
@@ -73,7 +88,7 @@ module CoffeeScript
         })
       WRAPPER
 
-      Source.context.call(wrapper, script, options)
+      MultiSource.context_for(version).call(wrapper, script, options)
     end
   end
 end

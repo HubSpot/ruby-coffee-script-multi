@@ -1,35 +1,22 @@
-Ruby CoffeeScript
-=================
+Ruby CoffeeScript Multi
+=======================
 
 Ruby CoffeeScript is a bridge to the official CoffeeScript compiler.
 
-    CoffeeScript.compile File.read("script.coffee")
+    available_versions = CoffeeScript.all_available_versions
+    default_version    = CoffeeScript.default_version
+
+    CoffeeScript.compile_with_version default_version, File.read("script.coffee")
 
 
 Installation
 ------------
 
-    gem install coffee-script
-
-*Note: This compiler library has replaced the original CoffeeScript
- compiler that was written in Ruby.*
+    gem install coffee-script-multi
 
 
 Dependencies
 ------------
-
-This library depends on the `coffee-script-source` gem which is
-updated any time a new version of CoffeeScript is released. (The
-`coffee-script-source` gem's version number is synced with each
-official CoffeeScript release.) This way you can build against
-different versions of CoffeeScript by requiring the correct version of
-the `coffee-script-source` gem.
-
-In addition, you can use this library with unreleased versions of
-CoffeeScript by setting the `COFFEESCRIPT_SOURCE_PATH` environment
-variable:
-
-    export COFFEESCRIPT_SOURCE_PATH=/path/to/coffee-script/extras/coffee-script.js
 
 ### JSON
 
