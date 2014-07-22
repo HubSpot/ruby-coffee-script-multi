@@ -3,17 +3,20 @@ Ruby CoffeeScript Multi
 
 Ruby CoffeeScript is a bridge to the official CoffeeScript compiler.
 
-    available_versions = CoffeeScript.all_available_versions
-    default_version    = CoffeeScript.default_version
+```ruby
+available_versions = CoffeeScript.all_available_versions
+default_version    = CoffeeScript.default_version
 
-    CoffeeScript.compile_with_version default_version, File.read("script.coffee")
+CoffeeScript.compile_with_version default_version, File.read("script.coffee")
+```
 
 
 Installation
 ------------
 
-    gem install coffee-script-multi
-
+```
+gem install coffee-script-multi
+```
 
 Dependencies
 ------------
