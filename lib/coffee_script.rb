@@ -51,9 +51,9 @@ module CoffeeScript
 
     # Look for coffee-script-*.js in the vendor/js folder
     def all_available_versions
-      jade_paths = Dir.glob File.join MultiSource.sources_directory, "coffee-script*"
+      js_paths = Dir.glob File.join MultiSource.sources_directory, "coffee-script*"
 
-      jade_paths.map do |path|
+      js_paths.map do |path|
         filename = File.basename path
         filename.sub(/^coffee-script-?/, '').sub(/\.js$/, '')
       end.compact
