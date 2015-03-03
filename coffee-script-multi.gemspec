@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name    = 'coffee-script-multi'
-  s.version = '0.0.1'
+  s.version = '0.1.1'
 
   s.homepage    = "http://github.com/HubSpot/ruby-coffee-script-multi"
   s.summary     = "Ruby CoffeeScript Compiler that supports multiple versions"
@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
     'vendor/coffee-script-1.4.0.js',
     'vendor/coffee-script-1.6.2.js',
     'vendor/coffee-script-1.7.1.js',
+    'vendor/coffee-script-1.9.1.js',
 
     'LICENSE',
     'README.md'
