@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
     'vendor/coffee-script-1.4.0.js',
     'vendor/coffee-script-1.6.2.js',
     'vendor/coffee-script-1.7.1.js',
+    'vendor/coffee-script-1.9.1.js',
 
     'LICENSE',
     'README.md'
