@@ -27,7 +27,7 @@ class TestCoffeeScript < TestCase
   end
 
   def test_available_versions
-    assert has_same_elements? ['1.4.0', '1.6.2', '1.7.1'], CoffeeScript::all_available_versions
+    assert has_same_elements? ['1.4.0', '1.6.2', '1.7.1', '1.9.1'], CoffeeScript::all_available_versions
   end
 
   def test_all_versions
